@@ -1,11 +1,14 @@
 package com.sunypoly.ForgetMeNot;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -54,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Button to bring user to code generator
+        // Button to bring user to shop
         Button ShopBtn = findViewById(R.id.ShopBtn);
         ShopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Shop = "https://www.customink.com/ndx/#/uploadForm?rs=w";
+                String Shop = "https://www.customink.com/ndx/?cid=ryb0-00cc-depr#/";
                 Uri webaddress = Uri.parse(Shop);
 
                 Intent shopIntent = new Intent(Intent.ACTION_VIEW, webaddress);
@@ -78,10 +81,32 @@ public class MainActivity extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                showResultDialogue(result.getContents());
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    // Display results of scan
+    private void showResultDialogue(final String result) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+
+        // scan result and location button
+        builder.setTitle("You found me!")
+                .setMessage(result)
+                .setPositiveButton("Return", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // return to app
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }

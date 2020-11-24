@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Forget Me Not</string>
+    <string name="remembering_for_those_who_cannot">Remembering for Those who Cannot</string>
+    <string name="info">all in one app to generate informative qr codes to create personalized wearables</string>
 </resources>
